@@ -50,7 +50,7 @@ public class GameDirGenerator
         else if (os.contains("mac"))
             return new File(System.getProperty("user.home") + "/Library/Application Support/" + serverName);
         else
-            return new File(System.getProperty("user.home") + "/." + serverName);
+            return new File(System.getProperty("user.home") + "/.local/share/." + serverName);
     }
 
 }
