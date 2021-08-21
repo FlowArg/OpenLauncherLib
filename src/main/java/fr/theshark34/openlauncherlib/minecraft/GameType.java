@@ -224,6 +224,27 @@ public abstract class GameType implements IForgeArgumentsProvider
         }
     };
     
+    public static final GameType V1_13_LOWER_FORGE = new GameType()
+    {
+        @Override
+        public String getName()
+        {
+            return "1.12.x or lower forge";
+        }
+        
+        @Override
+        public String getMainClass(GameInfos infos)
+        {
+            return "net.minecraft.launchwrapper.Launch";
+        }
+        
+        @Override
+        public List<String> getLaunchArgs(GameInfos infos, GameFolder folder, AuthInfos authInfos)
+        {
+            return getOldForgeArguments(this, infos, folder, authInfos);
+        }
+    }
+    
     public static final GameType FABRIC = new GameType()
     {
         @Override
@@ -280,6 +301,49 @@ public abstract class GameType implements IForgeArgumentsProvider
 
         arguments.add("--userType");
         arguments.add("legacy");
+
+        return arguments;
+    }
+    
+    private static List<String> getOldForgeArguments(GameType type, AuthInfos authInfos, GameFolder folder, GameInfos infos) 
+        final List<String> arguments = new ArrayList<>();
+
+        arguments.add("--username" + authInfos.getUsername());
+
+        arguments.add("--version");
+        arguments.add(infos.getGameVersion().getName());
+
+        arguments.add("--gameDir");
+        arguments.add(infos.getGameDir().toString());
+
+        arguments.add("--assetsDir");
+        arguments.add(infos.getGameDir().resolve(folder.getAssetsFolder()).toString());
+         
+        arguments.add("--assetIndex");
+        arguments.add(getAssetIndex(type, infos.getGameVersion())); 
+        
+        arguments.add("--uuid");
+        arguments.add(authInfos.getUuid());
+        
+        arguments.add("--accessToken");
+        arguments.add(authInfos.getAccessToken());
+        
+        arguments.add("--userType");
+        arguments.add("legacy");
+        
+        arguments.add("--tweakClass net.minecraftforge.fml.common.launcher.FMLTweaker");
+        
+        arguments.add("--versionType Forge");
+        
+        /* I don't think we need that
+        if (authInfos.getClientToken() != null)
+        {
+            arguments.add("--clientToken");
+            arguments.add(authInfos.getClientToken());
+        }
+
+        arguments.add("--userProperties");
+        arguments.add("{}");*/
 
         return arguments;
     }
