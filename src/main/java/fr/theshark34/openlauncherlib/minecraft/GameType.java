@@ -305,7 +305,7 @@ public abstract class GameType implements IForgeArgumentsProvider
         return arguments;
     }
     
-    private static List<String> getOldForgeArguments(GameType type, AuthInfos authInfos, GameFolder folder, GameInfos infos) 
+    private static List<String> getOldForgeArguments(GameType type, AuthInfos authInfos, GameFolder folder, GameInfos infos) {
         final List<String> arguments = new ArrayList<>();
 
         arguments.add("--username" + authInfos.getUsername());
